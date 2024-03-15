@@ -6,11 +6,13 @@ const profileRoutes = require("./profileRoutes");
 const paymentRoutes = require("./paymentRoutes");
 // const searchRoutes = require("./routes/searchRoutes");
 const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 const app = express();
-const PORT = 3000;
 
+const port = process.env.PORT;
 app.use(bodyParser.json());
 dotenv.config({ path: "./config.env" });
+let hostName = process.env.HOSTNAME_LOCAL;
 
 //connect to MongoDB
 
@@ -53,7 +55,13 @@ app.use("/profile", profileRoutes);
 app.use("/payment", paymentRoutes);
 
 
-app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+// app.listen(PORT, () => {
+//   console.log(`server is running on port ${PORT}`);
+// });
+
+const server = app.listen(port, (req, res) => {
+  console.log(`Server runing on ${hostName}:${port}`);
 });
+
+
 // \\Desktop\\Api latest\\API's on project\\
