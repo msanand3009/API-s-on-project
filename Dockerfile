@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 10048
 
 # Define the command to run your application
-CMD ["nodemon", "app.js"]
+CMD ["node", "app.js"]
