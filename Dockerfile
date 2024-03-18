@@ -10,6 +10,8 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm install --force
 
+RUN npm rebuild bcrypt
+
 # Bundle app source
 COPY . .
 
