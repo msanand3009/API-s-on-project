@@ -24,7 +24,7 @@ let DBOptions = {
 (async () => {
   try {
     await mongoose.connect(
-      "mongodb+srv://manjotsinghanandcse23:dOsO2lApY2wU1Js3@cluster1.ylu6yab.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1",
+      "mongodb://webmobril:wemobril1234@52.205.200.232:27017/home-for-sale-demo?authSource=admin",
       DBOptions
     );
     console.log("MongoDB connected");
