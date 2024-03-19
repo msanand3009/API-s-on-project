@@ -88,10 +88,11 @@ router.post("/login", async (req, res) => {
   }
   createSendToken(user, 200, res);
   } catch (error) {
-    throw new Error(error)
+    return error
   }
   
 });
+
 
 
 router.get("/user-details/:id", async (req, res) => {
