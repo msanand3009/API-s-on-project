@@ -66,7 +66,8 @@ const createSendToken = (user, statusCode, res) => {
 
 //Login
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
 
   // 1) Check if email and password exist
   if (!username || !password) {
@@ -86,6 +87,10 @@ router.post("/login", async (req, res) => {
    
   }
   createSendToken(user, 200, res);
+  } catch (error) {
+    throw new error
+  }
+  
 });
 
 
