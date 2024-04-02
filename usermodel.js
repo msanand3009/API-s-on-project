@@ -5,7 +5,8 @@ const userSchema = mongoose.Schema({
   username: { type: String, unique: true },
   password: String,
   email: { type: String, unique: true },
-  phoneNumber: { type: String }
+  phoneNumber: { type: String },
+  avatar: {type: String}
 });
 userSchema.methods.correctPassword = async function (
   candidatePassword,

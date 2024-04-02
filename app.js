@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./authRoutes");
 const profileRoutes = require("./profileRoutes");
 const paymentRoutes = require("./paymentRoutes");
+const path = require("path")
 // const searchRoutes = require("./routes/searchRoutes");
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
@@ -14,6 +15,11 @@ app.use(bodyParser.json());
 dotenv.config({ path: "./config.env" });
 let hostName = process.env.HOSTNAME_LOCAL;
 
+app.get("/images/:filename", (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, "./public", filename);
+  res.sendFile(filePath);
+});
 //connect to MongoDB
 
 let DBOptions = {
@@ -32,15 +38,9 @@ let DBOptions = {
     console.log("MongoDB error" + err);
   }
 })();
-
-// mongoose.connect(
-
-//   "mongodb+srv://manjotsinghanandcse23:dOsO2lApY2wU1Js3@cluster1.ylu6yab.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1",
-//   {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   }
-// );
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
 //Use authentication routes
 app.use("/auth", authRoutes);
@@ -54,6 +54,11 @@ app.use("/profile", profileRoutes);
 //use payment routes
 app.use("/payment", paymentRoutes);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({message: 'Internal server error'});
+});
+
 
 // app.listen(PORT, () => {
 //   console.log(`server is running on port ${PORT}`);
@@ -64,7 +69,3 @@ const server = app.listen(port, (req, res) => {
 });
 
 
-
-
-
-// \\Desktop\\Api latest\\API's on project\\

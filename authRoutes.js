@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require("./usermodel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const upload =  require("./upload")
 
 //Sign-up
 router.post("/signup", async (req, res) => {
@@ -64,6 +65,11 @@ const createSendToken = (user, statusCode, res) => {
   });
 };
 
+// const createSendToken = (user, statusCode, res) => {
+//   const token = signToken(user.id);
+//   const cookieOptions
+// }
+
 //Login
 router.post("/login", async (req, res) => {
   try {
@@ -75,7 +81,7 @@ router.post("/login", async (req, res) => {
   }
 
   //2) Check if user exists & password is correct
-  const user = await User.findOne({ username }).select("+password");
+  let user = await User.findOne({ username }).select("+password");
   console.log('222222222', user)
 
   if (!user || !(await user.correctPassword(password, user.password))) {
@@ -83,6 +89,7 @@ router.post("/login", async (req, res) => {
       res.status(404).json({
         status: false,
         message: "incorrect username or password",
+        user: user
       })
    
   }
@@ -109,8 +116,49 @@ try {
   
 } catch (error) {
   console.log(error)
-}
+ }
+// router.get("/user-details/:id", async (req, res) => {
+//   try {
+//     const{id}= req.params
+//     let user = await User.findById(id)
 
+//     res.status(202).json ({
+//       status: false,
+//       message: "Got user details",
+//       user: user
+//     })
+//   } 
+// })
 });
 
+router.patch("/user-details/:id", upload.single('avatar'), async(req,res) => {
+  try {
+    const {id} = req.params
+    const body = req.body
+    if(req.file){
+      body.avatar = req.file.filename
+    }
+    let user =   await User
+    .findByIdAndUpdate(id, body, { new: true })
+    .then();
+    res.status(201).json({
+      status: true,
+      message: "user details updated",
+      user: user
+    })
+  } catch (error) {
+    console.log(error)
+    throw new Error('unable to update user details', error)
+  }
+   
+})
+ 
 module.exports = router;
+
+
+
+
+
+// ng new projactName for create new project
+// ng g module moduleName
+// ng g component 
