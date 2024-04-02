@@ -83,13 +83,12 @@ router.post("/login", async (req, res) => {
   //2) Check if user exists & password is correct
   let user = await User.findOne({ username }).select("+password");
   console.log('222222222', user)
-
+  console.log('11111',await user.correctPassword(password, user.password))
   if (!user || !(await user.correctPassword(password, user.password))) {
 
       res.status(404).json({
         status: false,
         message: "incorrect username or password",
-        user: user
       })
    
   }
