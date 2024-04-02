@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const authenticateToken = require("./authMiddleware");
+// const authenticateToken = require("./authMiddleware");
 const profile = require("./profileModel");
 const User = require("./usermodel");
 
@@ -30,7 +30,7 @@ router.get("/registration/:id", async (req, res) => {
 
 
 //
-router.put('/profile', authenticateToken, async (req, res) => {
+router.put('/profile', async (req, res) => {
   try{
     const profile = await profile.findOne({user: req.user.id});
     if(!profile) {
