@@ -96,7 +96,7 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     return error
   }
-  
+    
 });
 
 
@@ -104,11 +104,11 @@ router.post("/login", async (req, res) => {
 router.get("/user-details/:id", async (req, res) => {
 try {
   const {id}= req.params
-  console.log('1111111111',id)
+  console.log('get====================================>',id)
   let user = await User.findById(id)
 
   res.status(202).json({
-    status: false,
+    status: true,
     message: "Got user details",
     user: user
   })
@@ -134,6 +134,7 @@ router.patch("/user-details/:id", upload.single('avatar'), async(req,res) => {
   try {
     const {id} = req.params
     const body = req.body
+    console.log('patch====================================>',id)
     if(req.file){
       body.avatar = req.file.filename
     }
